@@ -1,0 +1,261 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>Neon Franky — All-in-One Autonomous AI</title>
+    <link rel="stylesheet" href="style.css?v=2026">
+    <script src="https://cdn.jsdelivr.net/npm/pptxgenjs@3.12.0/dist/pptxgen.bundle.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/pdf.js/3.11.174/pdf.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/mammoth/1.6.0/mammoth.browser.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/mathjs/12.4.1/math.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+</head>
+<body>
+
+    <!-- ================= LAYAR LOGIN WAJIB ================= -->
+    <div id="loginOverlay" class="login-overlay">
+        <div class="login-card">
+            <div class="svg-logo-wrap login-logo-size">
+                <svg viewBox="0 0 120 120" class="nf-svg">
+                    <defs>
+                        <linearGradient id="neonGrad1" x1="0%" y1="0%" x2="100%" y2="100%">
+                            <stop offset="0%" stop-color="#00F5FF"/>
+                            <stop offset="50%" stop-color="#0EA5E9"/>
+                            <stop offset="100%" stop-color="#6366F1"/>
+                        </linearGradient>
+                        <linearGradient id="crownGrad" x1="0%" y1="0%" x2="100%" y2="100%">
+                            <stop offset="0%" stop-color="#FDE047"/>
+                            <stop offset="100%" stop-color="#F59E0B"/>
+                        </linearGradient>
+                    </defs>
+                    <ellipse cx="60" cy="64" rx="52" ry="18" transform="rotate(-18 60 64)" fill="none" stroke="url(#neonGrad1)" stroke-width="3.5" opacity="0.85"/>
+                    <circle cx="60" cy="62" r="42" fill="#0B1120" stroke="url(#neonGrad1)" stroke-width="3"/>
+                    <path d="M46 22 L51 11 L60 18 L69 11 L74 22 Z" fill="url(#crownGrad)" stroke="#FEF08A" stroke-width="1"/>
+                    <rect x="34" y="34" width="52" height="38" rx="14" fill="#1E293B" stroke="#38BDF8" stroke-width="2.5"/>
+                    <rect x="40" y="40" width="40" height="26" rx="9" fill="#090D16"/>
+                    <path d="M46 54 Q51 46 56 54" fill="none" stroke="#00F5FF" stroke-width="3.5" stroke-linecap="round"/>
+                    <path d="M64 54 Q69 46 74 54" fill="none" stroke="#00F5FF" stroke-width="3.5" stroke-linecap="round"/>
+                    <rect x="27" y="45" width="7" height="16" rx="3.5" fill="#0EA5E9"/>
+                    <rect x="86" y="45" width="7" height="16" rx="3.5" fill="#0EA5E9"/>
+                    <text x="60" y="93" text-anchor="middle" font-family="Arial Black, sans-serif" font-weight="900" font-size="22" fill="#FFFFFF" stroke="#0284C7" stroke-width="1.2">NF</text>
+                </svg>
+            </div>
+
+            <h2 class="login-title">Neon Franky</h2>
+            <p class="login-subtitle">Masuk ke All-in-One Autonomous AI Studio</p>
+
+            <form onsubmit="handleLogin(event)" class="login-form">
+                <div class="input-group">
+                    <label for="loginUser">Username</label>
+                    <input type="text" id="loginUser" placeholder="Masukkan username..." required autocomplete="off">
+                </div>
+                <div class="input-group">
+                    <label for="loginPass">Password</label>
+                    <input type="password" id="loginPass" placeholder="Masukkan password..." required>
+                </div>
+                <div id="loginError" class="login-error hidden">Username atau password salah!</div>
+                <button type="submit" class="btn-login-submit">Masuk ke Workspace</button>
+            </form>
+        </div>
+    </div>
+
+    <!-- ================= WORKSPACE UTAMA ================= -->
+    <div id="mainApp" class="app-layout hidden">
+        <!-- Backdrop khusus HP saat sidebar terbuka -->
+        <div id="sidebarBackdrop" class="sidebar-backdrop hidden" onclick="toggleSidebar()"></div>
+
+        <aside id="sidebar" class="sidebar">
+            <div class="sidebar-top">
+                <button type="button" onclick="startNewChat()" class="btn-new-chat">
+                    <span class="plus-icon">+</span> New chat
+                </button>
+                <button type="button" onclick="toggleSidebar()" class="btn-icon-only" title="Tutup Sidebar">✕</button>
+            </div>
+
+            <div class="sidebar-brand-card">
+                <div class="svg-logo-wrap sidebar-logo-size">
+                    <svg viewBox="0 0 120 120" class="nf-svg">
+                        <ellipse cx="60" cy="64" rx="52" ry="18" transform="rotate(-18 60 64)" fill="none" stroke="#00F5FF" stroke-width="4"/>
+                        <circle cx="60" cy="62" r="42" fill="#0B1120" stroke="#0EA5E9" stroke-width="3.5"/>
+                        <path d="M46 22 L51 11 L60 18 L69 11 L74 22 Z" fill="#FACC15"/>
+                        <rect x="34" y="34" width="52" height="38" rx="14" fill="#1E293B" stroke="#38BDF8" stroke-width="2.5"/>
+                        <rect x="40" y="40" width="40" height="26" rx="9" fill="#090D16"/>
+                        <path d="M46 54 Q51 46 56 54" fill="none" stroke="#00F5FF" stroke-width="4" stroke-linecap="round"/>
+                        <path d="M64 54 Q69 46 74 54" fill="none" stroke="#00F5FF" stroke-width="4" stroke-linecap="round"/>
+                        <text x="60" y="93" text-anchor="middle" font-family="Arial Black, sans-serif" font-weight="900" font-size="22" fill="#FFFFFF">NF</text>
+                    </svg>
+                </div>
+                <div class="brand-info-wrap">
+                    <div class="sidebar-brand-name">Neon Franky</div>
+                    <div class="sidebar-brand-sub" id="loggedUserBadge">@franky</div>
+                </div>
+            </div>
+
+            <button type="button" onclick="openMemoryModal()" class="btn-memory-open">
+                🧠 AI Memory (<span id="memoryCount">0</span> tersimpan)
+            </button>
+
+            <div class="sidebar-section">
+                <div id="pinnedSection" class="hidden">
+                    <div class="sidebar-label">📌 Disematkan</div>
+                    <div id="pinnedList" class="history-list"></div>
+                </div>
+
+                <div class="sidebar-label" style="margin-top: 12px;">💬 Riwayat Chat</div>
+                <div id="historyList" class="history-list"></div>
+            </div>
+
+            <div class="sidebar-footer">
+                <button type="button" onclick="handleLogout()" class="btn-logout">
+                    🚪 Logout Akun
+                </button>
+            </div>
+        </aside>
+
+        <div class="main-workspace">
+            <header class="top-bar">
+                <div class="top-left">
+                    <button type="button" id="openSidebarBtn" onclick="toggleSidebar()" class="btn-icon-only hidden" title="Buka Sidebar">☰</button>
+                    <span class="brand-title">Neon Franky <span class="pro-pill">TURBO</span></span>
+                </div>
+
+                <div class="top-right">
+                    <span id="topQuotaBadge" class="top-quota-pill">400K</span>
+                    <label class="voice-auto-toggle" title="Bacakan balasan AI dengan suara">
+                        <input type="checkbox" id="autoSpeakToggle">
+                        <span>🔊 Voice</span>
+                    </label>
+                    <button type="button" id="toggleArtifactBtn" onclick="toggleArtifactPanel()" class="btn-artifact-toggle hidden">
+                        ◈ Artifact
+                    </button>
+                    <span class="status-dot"></span>
+                </div>
+            </header>
+
+            <div class="workspace-body">
+                <div class="chat-column">
+                    <main id="chatContainer" class="chat-container">
+                        <div id="welcomeScreen" class="welcome-screen">
+                            <div class="svg-logo-wrap welcome-logo-size">
+                                <svg viewBox="0 0 120 120" class="nf-svg">
+                                    <ellipse cx="60" cy="64" rx="52" ry="18" transform="rotate(-18 60 64)" fill="none" stroke="#00F5FF" stroke-width="3.5"/>
+                                    <circle cx="60" cy="62" r="42" fill="#0B1120" stroke="#0EA5E9" stroke-width="3"/>
+                                    <path d="M46 22 L51 11 L60 18 L69 11 L74 22 Z" fill="#FACC15" stroke="#FEF08A" stroke-width="1"/>
+                                    <rect x="34" y="34" width="52" height="38" rx="14" fill="#1E293B" stroke="#38BDF8" stroke-width="2.5"/>
+                                    <rect x="40" y="40" width="40" height="26" rx="9" fill="#090D16"/>
+                                    <path d="M46 54 Q51 46 56 54" fill="none" stroke="#00F5FF" stroke-width="3.5" stroke-linecap="round"/>
+                                    <path d="M64 54 Q69 46 74 54" fill="none" stroke="#00F5FF" stroke-width="3.5" stroke-linecap="round"/>
+                                    <rect x="27" y="45" width="7" height="16" rx="3.5" fill="#0EA5E9"/>
+                                    <rect x="86" y="45" width="7" height="16" rx="3.5" fill="#0EA5E9"/>
+                                    <text x="60" y="93" text-anchor="middle" font-family="Arial Black, sans-serif" font-weight="900" font-size="22" fill="#FFFFFF" stroke="#0284C7" stroke-width="1.2">NF</text>
+                                </svg>
+                            </div>
+                            <h1 class="welcome-title">Halo, ada yang bisa <span>Neon Franky</span> kerjakan?</h1>
+                            <p class="welcome-sub">10 Modul AI Terintegrasi dengan Real-Time Streaming Turbo.</p>
+
+                            <div class="modules-grid">
+                                <button type="button" class="mod-chip" onclick="selectModule('general', 'Halo Neon Franky, bantu gw diskusi santai hari ini!')">1. 💬 AI Chatbot</button>
+                                <button type="button" class="mod-chip" onclick="selectModule('image', 'Buat gambar naga biru neon terbang di atas kota futuristik malam hari')">2. 🎨 Image Gen</button>
+                                <button type="button" class="mod-chip" onclick="selectModule('coding', 'Buatkan website kalkulator keuangan modern tema gelap dengan HTML CSS JS')">3. 💻 AI Coding</button>
+                                <button type="button" class="mod-chip" onclick="selectModule('research', 'Riset mendalam tentang perkembangan AI Agent dan dampaknya di tahun 2026')">4. 🔍 AI Research</button>
+                                <button type="button" class="mod-chip" onclick="startVoiceInput()">5. 🎙️ AI Voice</button>
+                                <button type="button" class="mod-chip" onclick="triggerFileUpload('.pdf,.docx,.txt')">6. 📄 PDF & Word</button>
+                                <button type="button" class="mod-chip" onclick="selectModule('translator', 'Terjemahkan ke Bahasa Inggris & Jepang formal: Selamat datang di sistem AI Neon Franky.')">7. 🌐 Translator</button>
+                                <button type="button" class="mod-chip" onclick="selectModule('analyst', 'Analisa data penjualan bulan Jan: 120, Feb: 150, Mar: 110, Apr: 210, Mei: 260. Hitung rata-rata dan buatkan grafiknya!')">8. 📊 Data Analyst</button>
+                                <button type="button" class="mod-chip" onclick="selectModule('automation', 'Bikin PPT 5 slide tentang Strategi Bisnis Digital')">9. ⚙️ Automation (PPT)</button>
+                                <button type="button" class="mod-chip" onclick="openMemoryModal()">10. 🧠 AI Memory</button>
+                            </div>
+                        </div>
+                    </main>
+
+                    <footer class="composer-wrapper">
+                        <div class="composer-box">
+                            <div id="filePreview" class="file-chip hidden">
+                                <span id="fileName">📄 file.pdf</span>
+                                <button type="button" onclick="clearFile()" class="chip-close">✕</button>
+                            </div>
+
+                            <textarea id="userInput" rows="1" placeholder="Ketik perintah, tekan 🎤 untuk suara, atau lampirkan file..." onkeydown="handleKeyDown(event)" oninput="autoResize(this)"></textarea>
+
+                            <div class="composer-toolbar">
+                                <div class="toolbar-left">
+                                    <label class="tool-btn" title="Upload PDF, Word (.docx), CSV, Gambar, atau Video">
+                                        <span>+</span>
+                                        <input type="file" id="fileInput" hidden onchange="handleFileSelect(event)">
+                                    </label>
+
+                                    <button type="button" id="micBtn" onclick="startVoiceInput()" class="tool-btn" title="AI Voice: Bicara ke mic">
+                                        🎤
+                                    </button>
+
+                                    <select id="workMode" class="mode-select" title="Pilih Modul AI">
+                                        <option value="auto">⚡ Auto Agent</option>
+                                        <option value="general">1. 💬 Chatbot</option>
+                                        <option value="image">2. 🎨 Image Gen</option>
+                                        <option value="coding">3. 💻 Coding</option>
+                                        <option value="research">4. 🔍 Research</option>
+                                        <option value="document">6. 📄 Document</option>
+                                        <option value="translator">7. 🌐 Translator</option>
+                                        <option value="analyst">8. 📊 Analyst</option>
+                                        <option value="automation">9. ⚙️ Auto PPT</option>
+                                    </select>
+                                </div>
+
+                                <div class="toolbar-right">
+                                    <select id="modelSelect" class="claude-model-select" title="Pilih Mesin AI">
+                                        <option value="anthropic/haiku-5.5">Neon 2 New</option>
+                                        <option value="deepseek/deepseek-v4-pro">Neon 1</option>
+                                        <option value="openai/gpt-5.6-sol">Neon Good</option>
+                                    </select>
+
+                                    <button type="button" onclick="sendMessage()" class="btn-claude-send" title="Kirim Pesan">
+                                        ↑
+                                    </button>
+                                </div>
+                            </div>
+                        </div>
+                    </footer>
+                </div>
+
+                <aside id="artifactPanel" class="artifact-panel hidden">
+                    <div class="artifact-header">
+                        <div class="artifact-title-group">
+                            <span class="artifact-icon">◈</span>
+                            <span id="artifactTitle" class="artifact-title">Live Artifact</span>
+                        </div>
+                        <div class="artifact-actions">
+                            <button type="button" onclick="switchArtifactTab('preview')" id="tabPreview" class="art-tab active">Preview</button>
+                            <button type="button" onclick="switchArtifactTab('code')" id="tabCode" class="art-tab">Code</button>
+                            <button type="button" onclick="copyArtifactCode()" class="art-btn">Copy</button>
+                            <button type="button" onclick="downloadArtifact()" class="art-btn">⬇</button>
+                            <button type="button" onclick="closeArtifactPanel()" class="art-btn">✕</button>
+                        </div>
+                    </div>
+                    <div class="artifact-body">
+                        <iframe id="artifactPreviewFrame" class="artifact-iframe"></iframe>
+                        <pre id="artifactCodeView" class="artifact-code hidden"></pre>
+                    </div>
+                </aside>
+            </div>
+        </div>
+    </div>
+
+    <div id="memoryModal" class="modal-overlay hidden">
+        <div class="modal-card">
+            <div class="modal-header">
+                <h3>🧠 AI Memory (Preferensi Pengguna)</h3>
+                <button type="button" onclick="closeMemoryModal()" class="btn-icon-only">✕</button>
+            </div>
+            <p class="modal-desc">Neon Franky otomatis mengingat info penting tentang lu:</p>
+            <div class="memory-add-row">
+                <input type="text" id="newMemoryInput" placeholder="Contoh: Gaya bahasa santai, suka coding web...">
+                <button type="button" onclick="addManualMemory()" class="btn-add-mem">Simpan</button>
+            </div>
+            <div id="memoryList" class="memory-list"></div>
+        </div>
+    </div>
+
+    <script src="script.js?v=2026"></script>
+</body>
+</html>
